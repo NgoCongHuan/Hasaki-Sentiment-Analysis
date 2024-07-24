@@ -1,1 +1,0 @@
-Folder này chứa các File để hỗ trợ cho web app như image
