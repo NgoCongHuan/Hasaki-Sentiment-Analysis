@@ -1,0 +1,2 @@
+Theme màu với format mấy biểu đồ anh cài sẵn r, em chỉ cần vẽ thui
+Dùng hết 3 file CSV trong data/clean luôn nha
