@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../static/img/Logo.jpg">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <title>KHDL - Insight Seekers</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .footer {
+            background-color: rgb(53, 53, 53);
+            color: white;
+            padding: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .button {
+            background-color: #000000;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            padding: 15px 32px;
+            text-decoration: none;
+            margin-left: 40%;
+        }
+
+        .logo {
+            position: relative;
+            top: -10px;
+            max-width: 40px;
+            max-height: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <img src="../static/img/Logo.jpg" class="img-circle logo">
+                    </a>
+                    <a class="navbar-brand" href="#">IS - Insight Seekers</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Trang chủ</a></li>
+                    <li><a href="#">Giới thiệu</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Đăng nhập</a></li>
+                    <li><a href="#">Đăng ký</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container" style="min-height: 500px;">
+        <div class="row">
+            <div class="col-lg-6">
+                <form action="#">
+                    <h2 style="text-align: center;">Upload CSV File</h2>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4">
+                            <input type="file" id="fileInput" accept=".csv">
+                        </div>
+                        <div class="col-lg-4"></div>
+                    </div>
+                    <br>
+                    <div id="fileInfo"></div>
+                    <div class="table">
+                        <div class="table-responsive" id="csvData"></div>
+                        <br>
+                        <button class="button" type="submit">SEND</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-6">
+                <img src="../static/img/temp.jpg" alt="">
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quas ut eius nulla non, omnis, eligendi
+                    quibusdam et neque iure consectetur excepturi amet voluptas veniam. Vel blanditiis nobis assumenda
+                    dolores omnis placeat culpa molestias incidunt neque cum possimus itaque, sint quis accusantium.
+                    Molestias inventore molestiae quo cum quas accusantium tempore dolorem. Quae dignissimos ullam
+                    vitae, ex nisi magni? Neque hic commodi, dolores, reiciendis voluptas rerum eaque a culpa recusandae
+                    rem cupiditate quis animi vero iusto deleniti sequi quaerat non. Excepturi hic architecto cupiditate
+                    laudantium, velit est incidunt consectetur illo voluptatem quisquam possimus quidem dicta minima
+                    beatae ab odio maxime id recusandae.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 Copyright: Insight Seekers</p>
+    </footer>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function () {
+                const csvData = reader.result;
+                const rows = csvData.split('\n');
+                let tableHtml = '<table>';
+                numCol = 10;
+                for (let i = 0; i < 5 && i < rows.length; i++) {
+                    tableHtml += '<tr>';
+                    let cols = [];
+                    let currentCell = '';
+                    let inQuotes = false;
+                    for (let j = 0; j < rows[i].length; j++) {
+                        const char = rows[i][j];
+                        if (char === '"') {
+                            inQuotes = !inQuotes;
+                        } else if (char === ',' && !inQuotes) {
+                            cols.push(currentCell);
+                            currentCell = '';
+                        } else {
+                            currentCell += char;
+                        }
+                    }
+                    cols.push(currentCell);
+                    for (let j = 0; j < numCol; j++) {
+                        let cellValue = cols[j] || '';
+                        tableHtml += `<td>${cellValue}</td>`;
+                    }
+                    tableHtml += '</tr>';
+                }
+
+                tableHtml += '</table>';
+                document.getElementById('csvData').innerHTML = tableHtml;
+            };
+
+            reader.readAsText(file);
+        });
+    </script>
+
+</body>
